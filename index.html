@@ -1032,6 +1032,313 @@
     .resource-link:hover { box-shadow: var(--shadow-soft); }
     .resource-link .icon-arrow { width: 1em; height: 1em; color: var(--text-muted); }
 
+    /* —— Virtual Model Try-on widget (before/after) —— */
+    #panel-tryon {
+      background: linear-gradient(135deg, var(--brand-fuchsia) 0%, var(--brand-magenta) 50%, var(--brand-purple) 100%);
+      background-attachment: scroll;
+      min-height: 60vh;
+      padding: var(--section-gap) var(--page-padding);
+    }
+    .tryon-widget-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      color: #fff;
+      font-family: var(--sans), system-ui, sans-serif;
+    }
+    .tryon-widget-wrap .widget-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .tryon-widget-wrap .widget-header h2 {
+      margin: 0;
+      font-size: 1.875rem;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    }
+    .tryon-widget-wrap .widget-header p {
+      margin: 0.5rem 0 0;
+      font-size: 0.875rem;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    }
+    .tryon-widget-wrap .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 1023px) {
+      .tryon-widget-wrap .main-grid { grid-template-columns: 1fr; }
+    }
+    .tryon-widget-wrap .left-panel {
+      position: relative;
+      min-height: 0;
+    }
+    .tryon-widget-wrap .image-wrap {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 12px;
+      background: rgba(30,30,30,0.5);
+      aspect-ratio: 2/3;
+    }
+    .tryon-widget-wrap .before-after-frame {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      user-select: none;
+      touch-action: none;
+      border-radius: 12px;
+    }
+    .tryon-widget-wrap .before-after-frame .layer-before {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .tryon-widget-wrap .before-after-frame .layer-before img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: saturate(0.85) contrast(0.92) brightness(0.97);
+      display: block;
+      pointer-events: none;
+    }
+    .tryon-widget-wrap .before-after-frame .layer-after {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      transition: clip-path 0.32s ease-out;
+    }
+    .tryon-widget-wrap .before-after-frame .layer-after.no-transition { transition: none; }
+    .tryon-widget-wrap .before-after-frame .layer-after img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      pointer-events: none;
+    }
+    .tryon-widget-wrap .before-after-frame .handle-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      cursor: ew-resize;
+    }
+    .tryon-widget-wrap .before-after-frame .handle-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(255,255,255,0.95);
+      transform: translateX(-50%);
+      pointer-events: none;
+      box-shadow: 0 0 10px rgba(160,40,160,0.4);
+      transition: left 0.32s ease-out;
+    }
+    .tryon-widget-wrap .before-after-frame .handle-layer.dragging .handle-line,
+    .tryon-widget-wrap .before-after-frame .handle-layer.dragging .handle-knob { transition: none; }
+    .tryon-widget-wrap .before-after-frame .handle-knob {
+      position: absolute;
+      top: 50%;
+      width: 44px;
+      height: 44px;
+      margin-left: -22px;
+      margin-top: -22px;
+      left: 67%;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--brand-purple);
+      box-shadow: 0 4px 20px rgba(160,40,160,0.3), 0 2px 8px rgba(0,0,0,0.15);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: left 0.32s ease-out;
+    }
+    .tryon-widget-wrap .before-after-frame .handle-knob svg { flex-shrink: 0; transition: transform 0.3s ease-out; }
+    .tryon-widget-wrap .before-after-frame .handle-knob.revealed svg { transform: rotate(180deg); }
+    @keyframes widget-fade-in { from { opacity: 0; } to { opacity: 1; } }
+    .tryon-widget-wrap .before-after-frame .layer-after img { animation: widget-fade-in 0.4s ease-out forwards; }
+    .tryon-widget-wrap .config-summary {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      max-width: 280px;
+      padding: 1rem;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.85);
+      border: 1px solid rgba(255,255,255,0.4);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      font-size: 0.875rem;
+    }
+    .tryon-widget-wrap .config-summary .label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--brand-pink-light);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tryon-widget-wrap .config-summary p { margin: 0.25rem 0 0; }
+    .tryon-widget-wrap .right-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      min-width: 0;
+    }
+    .tryon-widget-wrap .control-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    }
+    .tryon-widget-wrap .item-type-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .tryon-widget-wrap .item-type-btns button,
+    .tryon-widget-wrap .ethnicity-btns button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      border: 2px solid rgba(255,255,255,0.4);
+      background: rgba(0,0,0,0.25);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .tryon-widget-wrap .item-type-btns button { padding: 0.75rem 1rem; gap: 0.375rem; font-size: 0.75rem; }
+    .tryon-widget-wrap .item-type-btns button:hover,
+    .tryon-widget-wrap .ethnicity-btns button:hover {
+      border-color: var(--brand-fuchsia);
+      background: rgba(0,0,0,0.35);
+    }
+    .tryon-widget-wrap .item-type-btns button.active,
+    .tryon-widget-wrap .ethnicity-btns button.active {
+      background: var(--brand-purple);
+      border-color: rgba(255,255,255,0.6);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .tryon-widget-wrap .item-type-btns button .icon-emoji { font-size: 1.75rem; line-height: 1; }
+    .tryon-widget-wrap .item-type-btns button .icon-svg { width: 1.75rem; height: 1.75rem; stroke: currentColor; }
+    .tryon-widget-wrap .ethnicity-btns { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tryon-widget-wrap .ethnicity-btns button .emoji { font-size: 1.5rem; line-height: 1; }
+    .tryon-widget-wrap .hair-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .tryon-widget-wrap .hair-btns button {
+      width: 2rem;
+      height: 2rem;
+      padding: 0;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .tryon-widget-wrap .hair-btns button:hover { box-shadow: 0 0 0 2px rgba(255,255,255,0.5); }
+    .tryon-widget-wrap .hair-btns button.active { box-shadow: 0 0 0 2px white; }
+    .tryon-widget-wrap .hair-btns button span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px solid transparent;
+    }
+    .tryon-widget-wrap .age-slider-wrap input[type="range"] {
+      width: 100%;
+      height: 8px;
+      -webkit-appearance: none;
+      appearance: none;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.3);
+      accent-color: var(--brand-fuchsia);
+    }
+    .tryon-widget-wrap .age-slider-wrap input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+    .tryon-widget-wrap .age-slider-wrap input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      border: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+    .tryon-widget-wrap .age-quick {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      padding: 0 2px;
+    }
+    .tryon-widget-wrap .age-quick button {
+      font-size: 1.25rem;
+      padding: 0;
+      border: none;
+      background: none;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .tryon-widget-wrap .age-quick button:hover { opacity: 0.8; }
+    .tryon-widget-wrap .age-quick button.active { opacity: 1; transform: scale(1.1); }
+    .tryon-widget-wrap .btn-try-on {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      padding: 1rem 1.25rem;
+      border-radius: 16px;
+      border: 2px solid rgba(255,255,255,0.25);
+      background: linear-gradient(to right, var(--brand-fuchsia), var(--brand-magenta), var(--brand-purple));
+      color: #fff;
+      font-size: 1.125rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+      transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s;
+    }
+    .tryon-widget-wrap .btn-try-on:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 28px rgba(240,70,140,0.4);
+      border-color: rgba(255,255,255,0.4);
+      transform: scale(1.02);
+    }
+    .tryon-widget-wrap .btn-try-on:active { transform: scale(0.99); }
+    .tryon-widget-wrap .btn-try-on .icon-wrap {
+      flex-shrink: 0;
+      width: 3.5rem;
+      height: 3.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .tryon-widget-wrap .btn-try-on .icon-wrap svg { width: 2rem; height: 2rem; stroke: #fff; }
+    .tryon-widget-wrap .btn-try-on .text-wrap { flex: 1; }
+    .tryon-widget-wrap .btn-try-on .text-wrap .sub { font-size: 0.875rem; opacity: 0.85; margin-top: 0.25rem; }
+    .tryon-widget-wrap .btn-try-on .sparkle { font-size: 1.5rem; }
+
     footer {
       padding: 2rem var(--page-padding);
       margin-top: 2rem;
@@ -1489,18 +1796,113 @@
       </div>
     </section>
 
-    <!-- Tab: Virtual Model Try on -->
+    <!-- Tab: Virtual Model Try on – before/after widget -->
     <section id="panel-tryon" class="tab-panel">
-      <div class="tryon-hero-band">
-        <div class="tryon-hero">
-          <p class="greeting">Try it yourself</p>
-          <h2 class="font-serif">Virtual Model Try on</h2>
-          <p>See how your products look on realistic, diverse virtual models—with full control over style and transparency.</p>
+      <div class="tryon-widget-wrap">
+        <div class="widget-header">
+          <h2>Virtual Model Try-on</h2>
+          <p>Customize every detail — see your AI model come to life in real-time</p>
         </div>
-      </div>
 
-      <div class="tryon-cta">
-        <a href="#" class="btn-cta btn-light-blue">Try Virtual Model Try-On</a>
+        <div class="main-grid">
+          <div class="left-panel">
+            <div class="image-wrap">
+              <div class="before-after-frame" id="beforeAfterFrame">
+                <div class="layer-before">
+                  <img id="imgBefore" src="public/dress.jpg" alt="Before" />
+                </div>
+                <div class="layer-after" id="layerAfter">
+                  <img id="imgAfter" src="public/generated/dress_Asian_35_Athletic_Black.jpg" alt="After" />
+                </div>
+                <div class="handle-layer" id="handleLayer">
+                  <div class="handle-line" id="handleLine"></div>
+                  <div class="handle-knob" id="handleKnob">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A028A0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M15 18l-6-6 6-6" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="config-summary">
+              <p class="label">Current configuration</p>
+              <p id="cfgItem">Item: dress</p>
+              <p id="cfgStyle">Style: Athletic</p>
+              <p id="cfgEthnicity">Ethnicity: Asian</p>
+              <p id="cfgAge">Age Range: 35 years</p>
+            </div>
+          </div>
+
+          <div class="right-panel">
+            <div class="control-group">
+              <label>Item type</label>
+              <div class="item-type-btns" id="itemTypeBtns">
+                <button type="button" data-value="dress" class="active">
+                  <span class="icon-emoji">👗</span>
+                  <span>Dress</span>
+                </button>
+                <button type="button" data-value="ring">
+                  <span class="icon-emoji">💍</span>
+                  <span>Ring</span>
+                </button>
+                <button type="button" data-value="necklace">
+                  <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 9c0 0 3.5 7 7 7s7-7 7-7" /><path d="M12 15v5" />
+                    <circle cx="12" cy="21" r="2.5" fill="currentColor" fill-opacity="0.5" stroke="currentColor" />
+                  </svg>
+                  <span>Necklace</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label>Ethnicity</label>
+              <div class="ethnicity-btns" id="ethnicityBtns">
+                <button type="button" data-value="Asian" class="active"><span class="emoji">👩🏻</span><span>Asian</span></button>
+                <button type="button" data-value="African"><span class="emoji">👩🏿</span><span>African</span></button>
+                <button type="button" data-value="European"><span class="emoji">👩🏼</span><span>European</span></button>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label>Hair Color</label>
+              <div class="hair-btns" id="hairBtns">
+                <button type="button" data-value="Black" class="active" title="Black"><span style="background:#1a1a1a; border-color:#1a1a1a;"></span></button>
+                <button type="button" data-value="Brown" title="Brown"><span style="background:#5c4033; border-color:#5c4033;"></span></button>
+                <button type="button" data-value="Blonde" title="Blonde"><span style="background:#d4a574; border-color:#d4a574;"></span></button>
+                <button type="button" data-value="Red" title="Red"><span style="background:#a52a2a; border-color:#a52a2a;"></span></button>
+                <button type="button" data-value="Silver" title="Silver"><span style="background:#c0c0c0; border-color:#c0c0c0;"></span></button>
+              </div>
+            </div>
+
+            <div class="control-group age-slider-wrap">
+              <label>Age Range: <span id="ageLabel">35</span> years</label>
+              <input type="range" id="ageSlider" min="15" max="55" value="35" step="10" />
+              <div class="age-quick" id="ageQuick">
+                <button type="button" data-age="15" data-value="15" title="15 years">🧒</button>
+                <button type="button" data-age="25" data-value="25" title="25 years">🧑</button>
+                <button type="button" data-age="35" data-value="35" class="active" title="35 years">👩</button>
+                <button type="button" data-age="45" data-value="45" title="45 years">👩‍🦳</button>
+                <button type="button" data-age="55" data-value="55" title="55 years">👵</button>
+              </div>
+            </div>
+
+            <button type="button" class="btn-try-on" id="btnTryOn">
+              <span class="icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 4.5C9.5 3.5 10.5 3 12 3C13.5 3 14.5 3.5 15 4.5" />
+                  <path d="M9 4.5L4 6.5L5.5 11" /><path d="M15 4.5L20 6.5L18.5 11" />
+                  <path d="M8 8.5V21H16V8.5" />
+                </svg>
+              </span>
+              <span class="text-wrap">
+                <span>Try on your own item</span>
+                <span class="sub">See how it looks on your model — tap to generate</span>
+              </span>
+              <span class="sparkle">✨</span>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1565,6 +1967,197 @@
           if (id) showPanel(id);
         });
       });
+    })();
+
+    // Before/after widget (Virtual Model Try-on)
+    (function () {
+      var IMAGE_BASE = 'public';
+      var SLIDER_ARROW_LEFT_END = 8;
+      var JOLT_INTERVAL_MS = 4000;
+      var INITIAL_DELAY_MS = 1500;
+      var NUDGE_PERCENT = 63;
+      var REST_PERCENT = 67;
+
+      var config = {
+        itemType: 'dress',
+        ethnicity: 'Asian',
+        hairColor: 'Black',
+        ageRange: 35
+      };
+
+      var frameEl = document.getElementById('beforeAfterFrame');
+      var imgBefore = document.getElementById('imgBefore');
+      var imgAfter = document.getElementById('imgAfter');
+      var layerAfter = document.getElementById('layerAfter');
+      var handleLayer = document.getElementById('handleLayer');
+      var handleLine = document.getElementById('handleLine');
+      var handleKnob = document.getElementById('handleKnob');
+      var ageSlider = document.getElementById('ageSlider');
+      var ageLabel = document.getElementById('ageLabel');
+      var cfgItem = document.getElementById('cfgItem');
+      var cfgStyle = document.getElementById('cfgStyle');
+      var cfgEthnicity = document.getElementById('cfgEthnicity');
+      var cfgAge = document.getElementById('cfgAge');
+
+      if (!frameEl) return;
+
+      var percent = 67;
+      var isDragging = false;
+      var snap = false;
+      var hintAnimating = false;
+      var userHasInteracted = false;
+      var joltTimer = null;
+      var joltInterval = null;
+
+      function variantString() {
+        return config.ethnicity + '_' + config.ageRange + '_Athletic_' + config.hairColor;
+      }
+      function getBeforeSrc() {
+        return IMAGE_BASE + '/' + config.itemType + '.jpg';
+      }
+      function getAfterSrc() {
+        return IMAGE_BASE + '/generated/' + config.itemType + '_' + variantString() + '.jpg';
+      }
+
+      function updateImages() {
+        imgBefore.src = getBeforeSrc();
+        imgAfter.src = getAfterSrc();
+      }
+      function updateConfigSummary() {
+        cfgItem.textContent = 'Item: ' + config.itemType;
+        cfgStyle.textContent = 'Style: Athletic';
+        cfgEthnicity.textContent = 'Ethnicity: ' + config.ethnicity;
+        cfgAge.textContent = 'Age Range: ' + config.ageRange + ' years';
+        ageLabel.textContent = config.ageRange;
+      }
+
+      function setPercent(p) {
+        percent = Math.max(0, Math.min(100, p));
+        layerAfter.style.clipPath = 'inset(0 ' + (100 - percent) + '% 0 0)';
+        handleLine.style.left = percent + '%';
+        handleKnob.style.left = percent + '%';
+        handleKnob.classList.toggle('revealed', percent <= SLIDER_ARROW_LEFT_END);
+        if (hintAnimating || snap) {
+          layerAfter.classList.remove('no-transition');
+          handleLine.style.transition = 'left 0.32s ease-out';
+          handleKnob.style.transition = 'left 0.32s ease-out';
+        } else if (!isDragging) {
+          layerAfter.style.transition = 'none';
+          handleLine.style.transition = 'none';
+          handleKnob.style.transition = 'none';
+        }
+      }
+      function percentFromClientX(clientX) {
+        var rect = frameEl.getBoundingClientRect();
+        return ((clientX - rect.left) / rect.width) * 100;
+      }
+      function runJolt() {
+        if (userHasInteracted) return;
+        hintAnimating = true;
+        setPercent(NUDGE_PERCENT);
+        setTimeout(function () {
+          if (userHasInteracted) return;
+          setPercent(REST_PERCENT);
+          setTimeout(function () { hintAnimating = false; }, 280);
+        }, 280);
+      }
+      function startJoltHint() {
+        joltTimer = setTimeout(function () {
+          runJolt();
+          joltInterval = setInterval(runJolt, JOLT_INTERVAL_MS);
+        }, INITIAL_DELAY_MS);
+      }
+      function stopJoltHint() {
+        if (joltTimer) clearTimeout(joltTimer);
+        if (joltInterval) clearInterval(joltInterval);
+        joltTimer = joltInterval = null;
+      }
+
+      handleLayer.addEventListener('pointerdown', function (e) {
+        e.preventDefault();
+        userHasInteracted = true;
+        stopJoltHint();
+        isDragging = true;
+        snap = false;
+        layerAfter.classList.add('no-transition');
+        handleLayer.classList.add('dragging');
+        setPercent(percentFromClientX(e.clientX));
+        if (e.target.setPointerCapture) e.target.setPointerCapture(e.pointerId);
+      });
+      handleLayer.addEventListener('pointermove', function (e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        setPercent(percentFromClientX(e.clientX));
+      });
+      handleLayer.addEventListener('pointerup', function () {
+        if (!isDragging) return;
+        isDragging = false;
+        handleLayer.classList.remove('dragging');
+        snap = true;
+        layerAfter.classList.remove('no-transition');
+        setPercent(percent);
+        setTimeout(function () { snap = false; }, 220);
+      });
+      handleLayer.addEventListener('pointercancel', function () { handleLayer.dispatchEvent(new Event('pointerup')); });
+
+      function setActiveInGroup(container, value) {
+        var buttons = container.querySelectorAll('button');
+        buttons.forEach(function (btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-value') === value);
+        });
+      }
+      document.getElementById('itemTypeBtns').addEventListener('click', function (e) {
+        var btn = e.target.closest('button[data-value]');
+        if (!btn) return;
+        config.itemType = btn.getAttribute('data-value');
+        setActiveInGroup(this, config.itemType);
+        updateImages();
+        updateConfigSummary();
+      });
+      document.getElementById('ethnicityBtns').addEventListener('click', function (e) {
+        var btn = e.target.closest('button[data-value]');
+        if (!btn) return;
+        config.ethnicity = btn.getAttribute('data-value');
+        setActiveInGroup(this, config.ethnicity);
+        updateImages();
+        updateConfigSummary();
+      });
+      document.getElementById('hairBtns').addEventListener('click', function (e) {
+        var btn = e.target.closest('button[data-value]');
+        if (!btn) return;
+        config.hairColor = btn.getAttribute('data-value');
+        setActiveInGroup(this, config.hairColor);
+        updateImages();
+        updateConfigSummary();
+      });
+
+      ageSlider.addEventListener('input', function () {
+        config.ageRange = parseInt(this.value, 10);
+        ageLabel.textContent = config.ageRange;
+        cfgAge.textContent = 'Age Range: ' + config.ageRange + ' years';
+        setActiveInGroup(document.getElementById('ageQuick'), String(config.ageRange));
+        updateImages();
+      });
+      document.getElementById('ageQuick').addEventListener('click', function (e) {
+        var btn = e.target.closest('button[data-age]');
+        if (!btn) return;
+        var age = parseInt(btn.getAttribute('data-age'), 10);
+        config.ageRange = age;
+        ageSlider.value = age;
+        ageLabel.textContent = age;
+        setActiveInGroup(this, String(age));
+        updateImages();
+        updateConfigSummary();
+      });
+
+      document.getElementById('btnTryOn').addEventListener('click', function () {
+        updateImages();
+      });
+
+      setPercent(67);
+      startJoltHint();
+      updateImages();
+      updateConfigSummary();
     })();
   </script>
 </body>

@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Etsy Seller's Guide to AI Virtual Models – Ebook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Patrick+Hand&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      /* Bazaart brand – same as webapp (globals.css / tailwind) */
+      --brand-fuchsia: #F0468C;
+      --brand-magenta: #c93a8a;
+      --brand-purple: #A028A0;
+      --brand-pink-light: #f8a0c8;
+      --brand-pink-mid: #e060a0;
+      --brand-gold: #d4a853;
+      --brand-gold-light: #e8c97a;
+      --brand-navy: #0f1729;
+      --light-blue: #82C1E7;
+      --peach: #EEA47C;
+      --white: #ffffff;
+      --offwhite: #fef9fb;
+      --offwhite-2: #fdf5f8;
+      --text: var(--brand-navy);
+      --text-muted: #5a4a5a;
+      --border: #eedde8;
+      --radius: 12px;
+      --radius-pill: 999px;
+      --radius-card: 16px;
+      --radius-curvy: 28px 34px 24px 32px;
+      --radius-curvy-strong: 38% 62% 55% 45% / 52% 48% 52% 48%;
+      --shadow-soft: 0 4px 20px rgba(160, 40, 160, 0.08);
+      --shadow-card: 0 2px 12px rgba(160, 40, 160, 0.05);
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'Patrick Hand', 'Comic Neue', cursive;
+      --hand: 'Caveat', 'Patrick Hand', cursive;
+      --gradient-cta: linear-gradient(135deg, var(--brand-fuchsia) 0%, var(--brand-magenta) 50%, var(--brand-purple) 100%);
+      --gradient-cta-subtle: linear-gradient(135deg, var(--brand-pink-light) 0%, var(--brand-fuchsia) 100%);
+      --page-padding: 2rem;
+      --section-gap: 2.5rem;
+      /* Texture – warm, mottled, parchment-like */
+      --texture-warm-1: rgba(200, 170, 150, 0.06);
+      --texture-warm-2: rgba(180, 140, 120, 0.05);
+      --texture-warm-3: rgba(160, 120, 100, 0.04);
+      --texture-speckle: rgba(140, 100, 80, 0.03);
+    }
+    html { scroll-behavior: smooth; font-size: 18px; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow-x: hidden;
+    }
+    /* Subtle paper-grain overlay (hand-drawn feel) */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' result='n'/%3E%3CfeColorMatrix in='n' values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23fff' filter='url(%23g)' opacity='0.4'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      opacity: 0.35;
+    }
+    .font-serif { font-family: var(--serif); }
+    .greeting, .band-title, .section-title, .cta-title, .card h3, .faq-card .faq-q {
+      font-family: var(--hand);
+    }
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--page-padding);
+    }
+
+    /* Header – white, logo two-tone, nav center, pill CTA */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem var(--page-padding);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .logo .logo-accent { color: var(--brand-fuchsia); }
+    .logo .logo-dark { color: var(--text); }
+    .logo:hover .logo-accent { color: var(--brand-magenta); }
+    .logo:hover .logo-dark { color: var(--text); }
+    .nav-tabs {
+      display: flex;
+      gap: 0.25rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-tabs a {
+      display: block;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: var(--radius);
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-tabs a:hover, .nav-tabs a.active { color: var(--text); background: var(--offwhite-2); }
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1.25rem;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+      color: var(--white);
+      background: var(--gradient-cta);
+      border: none;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.05s;
+      white-space: nowrap;
+    }
+    .btn-cta:hover { opacity: 0.95; box-shadow: 0 4px 14px rgba(240, 70, 140, 0.35); }
+    .btn-cta.btn-secondary { background: var(--gradient-cta-subtle); }
+
+    main { padding: 0; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Hero – white bg, brand blob behind image left, text right */
+    .hero-band {
+      background: var(--white);
+      padding: var(--section-gap) 0;
+      border-radius: 0 0 55% 45% / 0 0 22% 18%;
+      padding-bottom: calc(3rem + 2rem);
+      background-image:
+        radial-gradient(ellipse 70% 60% at 80% 20%, var(--texture-warm-1) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 80% at 20% 70%, var(--texture-warm-2) 0%, transparent 55%);
+      background-color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-blob {
+      position: absolute;
+      left: -8%;
+      top: -20%;
+      width: 20%;
+      max-width: 480px;
+      height: 140%;
+      background: linear-gradient(180deg, var(--brand-pink-light) 0%, var(--brand-fuchsia) 50%, var(--brand-magenta) 100%);
+      opacity: 0.35;
+      border-radius: 45% 55% 50% 50% / 60% 40% 60% 40%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .hero .section-inner {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .hero-image-wrap {
+      flex: 0 0 320px;
+      position: relative;
+    }
+    .hero-image-wrap .blob-frame {
+      position: relative;
+      border-radius: 50% 50% 45% 55%;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--brand-fuchsia) 0%, var(--brand-magenta) 50%, var(--brand-purple) 100%);
+      padding: 0.5rem;
+      box-shadow: var(--shadow-soft);
+    }
+    .hero-figure {
+      border-radius: 50% 50% 48% 52%;
+      overflow: hidden;
+      aspect-ratio: 1;
+      background: var(--offwhite);
+    }
+    .hero-figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-text { flex: 1; min-width: 280px; }
+    .hero .greeting {
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 800;
+      color: var(--text);
+      margin: 0 0 0.5rem;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+    }
+    .hero .greeting .wavy {
+      display: inline-block;
+      position: relative;
+    }
+    .hero .greeting .wavy::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 2px;
+      width: 100%;
+      height: 8px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12'%3E%3Cpath fill='none' stroke='%23F0468C' stroke-width='3' stroke-linecap='round' d='M0 8 Q50 0 100 8 T200 8'/%3E%3C/svg%3E") no-repeat center bottom;
+      background-size: 100% 100%;
+      z-index: 0;
+    }
+    .hero .subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin: 0 0 1.5rem;
+      line-height: 1.6;
+      max-width: 520px;
+    }
+    .hero .subtitle .book-title {
+      font-weight: 700;
+      color: var(--text);
+      position: relative;
+    }
+    .hero .subtitle .book-title::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 6px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10'%3E%3Cpath fill='none' stroke='%23c93a8a' stroke-width='2.5' stroke-linecap='round' d='M0 6 Q50 0 100 6 T200 6'/%3E%3C/svg%3E") no-repeat center bottom;
+      background-size: 100% 100%;
+    }
+
+    /* CTA block – cream, two columns: left title + graphic, right copy + button */
+    .cta-band {
+      padding: var(--section-gap) 0;
+      background: var(--offwhite-2);
+    }
+    .cta-block {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+      background: var(--white);
+      border-radius: var(--radius-curvy);
+      padding: 2rem;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--border);
+      background-image: radial-gradient(ellipse 90% 70% at 50% 40%, var(--texture-warm-1) 0%, transparent 65%);
+      background-color: var(--white);
+    }
+    .cta-block-left { }
+    .cta-block .cta-title {
+      font-size: clamp(1.75rem, 3vw, 2.15rem);
+      font-weight: 800;
+      color: var(--text);
+      margin: 0 0 0.75rem;
+      line-height: 1.2;
+    }
+    .cta-block .cta-title .cta-title-accent { color: var(--brand-fuchsia); }
+    .cta-block .cta-proof {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin: 0 0 0.5rem;
+    }
+    .cta-block .cta-icon-wrap {
+      margin-top: 1rem;
+      width: 56px;
+      height: 56px;
+    }
+    .cta-block .cta-icon-wrap svg { width: 100%; height: 100%; }
+    .cta-block-right { }
+    .cta-block .cta-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin: 0 0 1.25rem;
+      line-height: 1.6;
+    }
+    .cta-block .btn-cta { width: 100%; max-width: 260px; }
+
+    /* Content bands – problem, solution, about, etc. */
+    .content-band {
+      padding: var(--section-gap) 0;
+      background: var(--white);
+      position: relative;
+      border-radius: 0 0 52% 48% / 0 0 20% 16%;
+      padding-bottom: calc(var(--section-gap) + 2rem);
+      margin-bottom: -1.5rem;
+      /* Mottled, watercolor-like texture */
+      background-image:
+        radial-gradient(ellipse 80% 50% at 15% 30%, var(--texture-warm-1) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 70% at 85% 60%, var(--texture-warm-2) 0%, transparent 50%),
+        radial-gradient(ellipse 70% 40% at 50% 80%, var(--texture-speckle) 0%, transparent 45%),
+        radial-gradient(ellipse 50% 60% at 70% 20%, var(--texture-warm-3) 0%, transparent 50%);
+      background-color: var(--white);
+    }
+    .content-band::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 28px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 28' preserveAspectRatio='none'%3E%3Cpath fill='%23fdf5f8' d='M0 28V14.5q75-8 150-2t150 10 150 2 150-8 150 2 150-4 150 6 150-2 150 4v14z'/%3E%3C/svg%3E") no-repeat center bottom;
+      background-size: 100% 100%;
+      pointer-events: none;
+    }
+    .content-band.alt {
+      background: var(--offwhite-2);
+      border-radius: 0 0 48% 52% / 0 0 18% 14%;
+      margin-top: -1.5rem;
+      padding-top: calc(var(--section-gap) + 1.5rem);
+      padding-bottom: calc(var(--section-gap) + 2rem);
+      /* Mottled, parchment-like variation */
+      background-image:
+        radial-gradient(ellipse 75% 55% at 25% 40%, var(--texture-warm-1) 0%, transparent 52%),
+        radial-gradient(ellipse 65% 45% at 90% 25%, var(--texture-warm-2) 0%, transparent 48%),
+        radial-gradient(ellipse 55% 65% at 10% 75%, var(--texture-warm-3) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 50% at 60% 90%, var(--texture-speckle) 0%, transparent 45%);
+      background-color: var(--offwhite-2);
+    }
+    .content-band.alt::after {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 28' preserveAspectRatio='none'%3E%3Cpath fill='%23ffffff' d='M0 28V12q80 4 160-4t160 8 160-6 160 4 160-2 160 8 160-4 160 6v14z'/%3E%3C/svg%3E");
+    }
+    .content-band .band-title {
+      font-size: clamp(1.75rem, 3vw, 2.35rem);
+      font-weight: 800;
+      color: var(--text);
+      margin: 0 0 1rem;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+    .content-band .band-lead {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin: 0 0 1.25rem;
+      line-height: 1.65;
+      max-width: 640px;
+    }
+    .content-band .band-body {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.7;
+    }
+    .content-band .band-body p { margin: 0 0 1rem; }
+    .content-band .band-body p:last-child { margin-bottom: 0; }
+    .bullet-list {
+      list-style: none;
+      margin: 0 0 1.5rem;
+      padding: 0;
+    }
+    .bullet-list li {
+      position: relative;
+      padding-left: 1.75rem;
+      margin-bottom: 0.6rem;
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .bullet-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.4em;
+      width: 1rem;
+      height: 1rem;
+      background: var(--brand-fuchsia);
+      border-radius: 50%;
+      opacity: 0.9;
+    }
+    .bullet-list.bullet-check li::before {
+      background: #22c55e;
+      border-radius: 2px;
+      width: 0.6rem;
+      height: 0.6rem;
+      top: 0.5em;
+      left: 0.15rem;
+    }
+    .bullet-list.bullet-check li::after {
+      content: '✓';
+      position: absolute;
+      left: 0.25rem;
+      top: 0.15rem;
+      font-size: 0.5rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .bullet-list.bullet-green li::before { background: #22c55e; }
+    .problem-list {
+      list-style: none;
+      margin: 1rem 0;
+      padding: 0;
+    }
+    .problem-list li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-muted);
+      font-size: 1.15rem;
+    }
+    .problem-list li::before { content: '•'; position: absolute; left: 0; color: var(--brand-fuchsia); font-weight: 700; }
+    .pricing-band {
+      padding: var(--section-gap) 0;
+      background: linear-gradient(180deg, var(--offwhite-2) 0%, var(--white) 100%);
+      border-radius: 0 0 40% 38% / 0 0 14% 12%;
+      padding-bottom: calc(var(--section-gap) + 1.5rem);
+    }
+    .pricing-card {
+      max-width: 420px;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: var(--radius-curvy);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-card);
+      border: 2px solid var(--border);
+      text-align: center;
+    }
+    .pricing-card .price-title { font-size: 1.25rem; font-weight: 700; color: var(--text); margin: 0 0 1rem; }
+    .pricing-card .price-includes { text-align: left; margin: 1.25rem 0; font-size: 1.05rem; color: var(--text-muted); }
+    .pricing-card .price-includes ul { list-style: none; margin: 0; padding: 0; }
+    .pricing-card .price-includes li { padding-left: 1.5rem; margin-bottom: 0.5rem; position: relative; }
+    .pricing-card .price-includes li::before { content: '✓'; position: absolute; left: 0; color: #22c55e; font-weight: 700; }
+    .pricing-card .price-amount { font-size: 2.5rem; font-weight: 800; color: var(--text); margin: 0.5rem 0 1rem; }
+    .pricing-card .btn-cta { width: 100%; max-width: 280px; }
+    .guarantee-band {
+      padding: calc(var(--section-gap) * 1.25) 0;
+      border-radius: 0 0 45% 55% / 0 0 18% 14%;
+      padding-bottom: calc(var(--section-gap) + 1.5rem);
+      margin-bottom: var(--section-gap);
+      text-align: center;
+      background: var(--white);
+    }
+    .guarantee-band .band-title {
+      margin-bottom: 0.75rem;
+      font-family: var(--hand);
+      font-size: clamp(1.85rem, 4vw, 2.5rem);
+      font-weight: 800;
+      color: var(--brand-navy);
+      letter-spacing: -0.02em;
+    }
+    .guarantee-band .band-lead {
+      margin: 0 auto;
+      max-width: 560px;
+      font-size: clamp(1.15rem, 2.2vw, 1.35rem);
+      font-weight: 700;
+      color: var(--brand-fuchsia);
+      line-height: 1.5;
+    }
+
+    /* Launch discount – coupon card visual */
+    .discount-band {
+      padding: var(--section-gap) var(--page-padding);
+      background: var(--offwhite-2);
+      position: relative;
+    }
+    .discount-band .section-inner {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .discount-card {
+      background: var(--white);
+      border-radius: var(--radius-curvy);
+      border: 3px dashed var(--border);
+      box-shadow: var(--shadow-card), 0 0 0 1px rgba(240, 70, 140, 0.08);
+      overflow: hidden;
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      align-items: stretch;
+    }
+    @media (max-width: 640px) {
+      .discount-card { grid-template-columns: 1fr; }
+    }
+    .discount-card .discount-price-side {
+      background: linear-gradient(135deg, var(--brand-fuchsia) 0%, var(--brand-magenta) 100%);
+      color: var(--white);
+      padding: 2rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .discount-card .price-was {
+      font-size: 1.35rem;
+      text-decoration: line-through;
+      opacity: 0.9;
+      margin-bottom: 0.25rem;
+    }
+    .discount-card .price-now {
+      font-family: var(--hand);
+      font-size: clamp(3rem, 7vw, 4.25rem);
+      font-weight: 800;
+      line-height: 1;
+    }
+    .discount-card .price-now .currency { font-size: 0.55em; vertical-align: 0.15em; }
+    .discount-card .discount-save {
+      display: inline-block;
+      background: var(--brand-gold);
+      color: var(--brand-navy);
+      font-family: var(--hand);
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      margin-top: 0.75rem;
+    }
+    .discount-card .discount-copy-side {
+      padding: 2rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+    .discount-card .discount-label {
+      font-family: var(--hand);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--brand-fuchsia);
+    }
+    .discount-card .discount-note {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.5;
+    }
+    .discount-card .discount-cta .btn-cta {
+      width: 100%;
+      font-size: 1.15rem;
+      padding: 0.75rem 1.5rem;
+      margin-top: 0.5rem;
+    }
+    .discount-card .discount-cta .btn-cta:hover {
+      transform: translateY(-1px);
+    }
+    .author-band {
+      padding: var(--section-gap) 0;
+      background: var(--white);
+      border-radius: 0 0 50% 50% / 0 0 16% 20%;
+      padding-bottom: calc(var(--section-gap) + 1.5rem);
+    }
+    .author-band .section-inner { display: flex; align-items: flex-start; gap: 2rem; flex-wrap: wrap; }
+    .author-avatar {
+      flex: 0 0 120px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--gradient-cta-subtle);
+      overflow: hidden;
+    }
+    .author-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .author-content { flex: 1; min-width: 280px; }
+    .before-after-band {
+      padding: var(--section-gap) 0;
+      background: var(--offwhite-2);
+    }
+    .before-after-placeholder {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .before-after-placeholder .placeholder-box {
+      aspect-ratio: 1;
+      background: var(--white);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-curvy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 1rem;
+      overflow: hidden;
+    }
+    .before-after-placeholder .placeholder-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: inherit;
+    }
+    .before-after-item-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .before-after-item-link:hover {
+      transform: translateY(-4px);
+    }
+    .before-after-item-link:hover .placeholder-box {
+      border-color: var(--brand-fuchsia);
+      border-style: solid;
+      box-shadow: 0 8px 28px rgba(240, 70, 140, 0.2);
+    }
+    .before-after-placeholder .placeholder-box {
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    /* Shaped image wrappers – drawing-style integration */
+    .section-inner:has(.section-with-image),
+    .section-with-image,
+    .section-image,
+    .section-image .img-drawing-wrap {
+      overflow: visible;
+    }
+    .section-image {
+      position: relative;
+    }
+    .img-drawing-wrap {
+      position: relative;
+      padding: 0.5rem;
+      background: transparent;
+      filter: drop-shadow(5px 6px 0 rgba(240, 70, 140, 0.12)) drop-shadow(2px 2px 8px rgba(0,0,0,0.06));
+    }
+    .img-drawing-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      /* border: 2.5px solid var(--brand-fuchsia); */
+      border-radius: 98% 95% 97% 94% / 94% 97% 95% 98%;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .img-shape-wrap {
+      overflow: hidden;
+      background: var(--offwhite-2);
+      position: relative;
+      border: 1px solid rgba(240, 70, 140, 0.08);
+      box-sizing: border-box;
+      width: 100%;
+      isolation: isolate;
+    }
+    .img-shape-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+    }
+    .img-shape-blob,
+    .img-shape-blob img { clip-path: url(#clip-blob); -webkit-clip-path: url(#clip-blob); }
+    .img-shape-frame,
+    .img-shape-frame img { clip-path: url(#clip-frame); -webkit-clip-path: url(#clip-frame); }
+    .img-shape-circle,
+    .img-shape-circle img { clip-path: url(#clip-circle); -webkit-clip-path: url(#clip-circle); }
+    .img-shape-strip,
+    .img-shape-strip img { clip-path: url(#clip-strip); -webkit-clip-path: url(#clip-strip); }
+    .img-shape-tilt,
+    .img-shape-tilt img { clip-path: url(#clip-tilt); -webkit-clip-path: url(#clip-tilt); }
+    .drawing-accent {
+      position: absolute;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .drawing-accent svg { display: block; }
+    .section-image .drawing-accent-1 { bottom: -8px; right: -6px; width: 48px; height: 32px; opacity: 0.7; }
+    .section-image .drawing-accent-2 { top: -4px; left: -4px; width: 36px; height: 36px; opacity: 0.5; }
+    .section-image .drawing-accent-3 { bottom: -6px; left: 50%; margin-left: -24px; width: 48px; height: 20px; opacity: 0.6; }
+    .section-with-image {
+      position: relative;
+      min-height: 380px;
+    }
+    .section-with-image .section-image {
+      position: absolute;
+      right: -2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 0;
+      width: 52%;
+      max-width: 560px;
+      min-width: 320px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .section-with-image .section-image .img-drawing-wrap {
+      width: 100%;
+      max-width: 560px;
+    }
+    .section-with-image.img-pos-1 .section-image { right: -3rem; width: 48%; }
+    .section-with-image.img-pos-1 .section-image .img-drawing-wrap { max-width: 520px; }
+    .section-with-image.img-pos-2 .section-image { right: 0.5rem; width: 54%; }
+    .section-with-image.img-pos-2 .section-image .img-drawing-wrap { max-width: 580px; }
+    .section-with-image.img-pos-3 .section-image { right: -2rem; width: 50%; }
+    .section-with-image.img-pos-3 .section-image .img-drawing-wrap { max-width: 540px; }
+    .section-with-image.img-pos-4 .section-image { right: -1rem; width: 52%; }
+    .section-with-image.img-pos-4 .section-image .img-drawing-wrap { max-width: 560px; }
+    .section-with-image.img-pos-5 .section-image { right: -2.5rem; width: 51%; }
+    .section-with-image.img-pos-5 .section-image .img-drawing-wrap { max-width: 550px; }
+    .section-with-image .section-text {
+      position: relative;
+      z-index: 1;
+      max-width: 55%;
+      min-width: 280px;
+    }
+    .section-with-image .section-text .band-title { margin-top: 0; }
+    .section-with-image .section-text .band-title::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      margin-top: 0.5rem;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 8'%3E%3Cpath fill='none' stroke='%2382C1E7' stroke-width='2' stroke-linecap='round' d='M0 4 Q15 1 30 4 T60 4'/%3E%3C/svg%3E") no-repeat left top;
+      background-size: 100% 100%;
+      opacity: 0.8;
+    }
+    .section-image .img-drawing-wrap .img-shape-wrap {
+      aspect-ratio: 4/3;
+      max-height: 520px;
+      min-height: 320px;
+      margin-left: 150px;
+    }
+    .section-image .img-shape-wrap img { object-fit: cover; }
+    @media (max-width: 640px) {
+      .section-with-image { min-height: 0; }
+      .section-with-image .section-image,
+      .section-with-image.img-pos-1 .section-image,
+      .section-with-image.img-pos-2 .section-image,
+      .section-with-image.img-pos-3 .section-image,
+      .section-with-image.img-pos-4 .section-image,
+      .section-with-image.img-pos-5 .section-image {
+        position: static;
+        transform: none;
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        top: auto;
+        right: auto;
+        justify-content: center;
+      }
+      .section-with-image .section-image .img-drawing-wrap { max-width: none; }
+      .section-with-image .section-text { max-width: none; min-width: 0; }
+      .section-image .img-drawing-wrap .img-shape-wrap { max-height: 380px; margin-left: 0; }
+      .section-image .drawing-accent { display: none; }
+    }
+    .bonus-item-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .bonus-item-link:hover {
+      transform: translateY(-2px);
+    }
+    .bonus-item-link:hover .bonus-item {
+      border-color: var(--brand-fuchsia);
+      box-shadow: 0 6px 24px rgba(240, 70, 140, 0.15);
+      background-color: var(--offwhite-2);
+    }
+    .bonus-item {
+      background: var(--white);
+      border-radius: var(--radius-curvy);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 0.75rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-card);
+      background-image: radial-gradient(ellipse 100% 80% at 50% 50%, var(--texture-warm-1) 0%, transparent 70%);
+      background-color: var(--white);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+    .bonus-item-link:last-child .bonus-item { margin-bottom: 0; }
+    .bonus-item strong { color: var(--text); }
+
+    /* How Can I Help You + FAQ – same off-white band, card grid */
+    .cards-band {
+      padding: var(--section-gap) 0 2rem;
+      background: var(--offwhite-2);
+      border-radius: 0 0 42% 58% / 0 0 15% 18%;
+      padding-bottom: calc(2rem + 1.5rem);
+      background-image:
+        radial-gradient(ellipse 60% 50% at 30% 60%, var(--texture-warm-1) 0%, transparent 50%),
+        radial-gradient(ellipse 55% 60% at 75% 30%, var(--texture-warm-2) 0%, transparent 48%);
+      background-color: var(--offwhite-2);
+    }
+    .cards-band .section-title {
+      font-size: clamp(2rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      color: var(--text);
+      margin: 0 0 1.75rem;
+      letter-spacing: -0.02em;
+    }
+    .cards-band .section-title .wavy-you {
+      display: inline-block;
+      position: relative;
+    }
+    .cards-band .section-title .wavy-you::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -4px;
+      width: 1.15em;
+      height: 0.5em;
+      margin-left: -0.575em;
+      background: var(--light-blue);
+      border-radius: 50% 50% 45% 55%;
+      z-index: -1;
+      opacity: 0.6;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    /* Reference layout: left = tall peach (span 2) + one card below; right = 3 stacked + "... and more!" */
+    .card.card-peach { grid-column: 1; grid-row: 1 / span 2; }
+    .card:not(.card-peach):not(.card-more):nth-of-type(2) { grid-column: 2; grid-row: 1; }
+    .card:not(.card-peach):not(.card-more):nth-of-type(3) { grid-column: 2; grid-row: 2; }
+    .card:not(.card-peach):not(.card-more):nth-of-type(4) { grid-column: 1; grid-row: 3; }
+    .card.card-more { grid-column: 2; grid-row: 3; }
+    .card {
+      background: #f8f6f4;
+      border-radius: var(--radius-curvy);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--border);
+      transition: box-shadow 0.2s, transform 0.15s;
+    }
+    .card:hover { box-shadow: var(--shadow-soft); transform: translateY(-2px); }
+    .card.card-peach {
+      background: var(--peach);
+      border-color: rgba(0,0,0,0.06);
+    }
+    .card.card-peach h3,
+    .card.card-peach p,
+    .card.card-peach .card-link { color: var(--brand-navy); }
+    .card.card-peach .card-link:hover { color: var(--text); }
+    .card.card-more {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.5rem;
+    }
+    .card.card-more h3 { margin-bottom: 0.75rem; }
+    .card.card-more .card-body { width: 100%; }
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-icon svg { width: 100%; height: 100%; }
+    .card-icon.icon-yellow { color: var(--brand-gold); }
+    .card-icon.icon-blue { color: var(--light-blue); }
+    .card-icon.icon-dark { color: var(--brand-navy); }
+    .card-icon.icon-purple { color: var(--brand-magenta); }
+    .card.card-peach .card-icon { color: rgba(15,23,41,0.85); }
+    .card h3 { font-size: 1.25rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--text); }
+    .card p { margin: 0 0 1rem; font-size: 1.05rem; color: var(--text-muted); line-height: 1.55; }
+    .card-link {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .card-link:hover { color: var(--brand-navy); }
+    .card-link .icon-arrow { width: 1em; height: 1em; }
+    .card-image { display: none; }
+    .card-body { padding: 0; }
+    .btn-light-blue {
+      background: var(--light-blue);
+      color: var(--white);
+    }
+    .btn-light-blue:hover { opacity: 0.95; filter: brightness(1.05); }
+
+    /* FAQ – one Q&A per box, one per line, alternating left/right with space */
+    .faq-band {
+      padding: var(--section-gap) 0 var(--section-gap);
+      background: var(--offwhite-2);
+      border-radius: 0 0 48% 52% / 0 0 14% 16%;
+      padding-bottom: calc(var(--section-gap) + 1.5rem);
+    }
+    .faq-band .section-inner { max-width: 1100px; }
+    .faq-cards {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+    .faq .section-title {
+      font-size: clamp(2rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      color: var(--text);
+      margin: 0 0 1.75rem;
+      letter-spacing: -0.02em;
+    }
+    .faq .section-title .wavy-faq::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 100%;
+      height: 10px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 12'%3E%3Cpath fill='none' stroke='%23F0468C' stroke-width='2.5' stroke-linecap='round' d='M0 8 Q15 2 30 8 T60 8'/%3E%3C/svg%3E") no-repeat center bottom;
+      background-size: 100% 100%;
+    }
+    .faq .section-title .wavy-faq { display: inline-block; position: relative; }
+    .faq-intro {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin: 0 0 1.5rem;
+      line-height: 1.6;
+    }
+    .faq-card {
+      background: #f8f6f4;
+      border-radius: var(--radius-curvy);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--border);
+      transition: box-shadow 0.2s, transform 0.15s;
+      max-width: 56.67%;
+      box-sizing: border-box;
+    }
+    .faq-card:nth-child(odd) {
+      align-self: flex-start;
+      margin-right: auto;
+    }
+    .faq-card:nth-child(even) {
+      align-self: flex-end;
+      margin-left: auto;
+    }
+    .faq-card:hover { box-shadow: var(--shadow-soft); transform: translateY(-2px); }
+    .faq-card.faq-card-accent {
+      background: var(--peach);
+      border-color: rgba(0,0,0,0.06);
+    }
+    .faq-card.faq-card-accent .faq-q,
+    .faq-card.faq-card-accent .faq-a { color: var(--brand-navy); }
+    .faq-card .faq-q {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      margin: 0 0 0.75rem;
+      line-height: 1.35;
+    }
+    .faq-card .faq-a {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.65;
+    }
+    .faq-card-icon {
+      width: 44px;
+      height: 44px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .faq-card-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+    .faq-card-icon.icon-yellow { color: var(--brand-gold); }
+    .faq-card-icon.icon-blue { color: var(--light-blue); }
+    .faq-card-icon.icon-dark { color: var(--brand-navy); }
+    .faq-card-icon.icon-purple { color: var(--brand-magenta); }
+    .faq-card.faq-card-accent .faq-card-icon { color: rgba(15,23,41,0.85); }
+
+    /* Try-on & Resources panels */
+    .tryon-hero-band {
+      padding: var(--section-gap) 0;
+      background: var(--offwhite-2);
+      text-align: center;
+    }
+    .tryon-hero {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--page-padding);
+    }
+    .tryon-hero h2 { font-size: clamp(2rem, 3.5vw, 2.6rem); font-weight: 800; margin: 0 0 0.5rem; }
+    .tryon-hero p { color: var(--text-muted); font-size: 1.1rem; }
+    .tryon-cta { text-align: center; margin: 2rem 0; }
+    .resources-band {
+      padding: var(--section-gap) 0 2.5rem;
+      background: var(--offwhite-2);
+    }
+    .resources-band .section-inner { max-width: 640px; }
+    .resources-intro { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.6; }
+    .resources-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .resource-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      background: var(--white);
+      border-radius: var(--radius-curvy);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.05rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-card);
+      transition: box-shadow 0.2s;
+    }
+    .resource-link:hover { box-shadow: var(--shadow-soft); }
+    .resource-link .icon-arrow { width: 1em; height: 1em; color: var(--text-muted); }
+
+    footer {
+      padding: 2rem var(--page-padding);
+      margin-top: 2rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      text-align: center;
+      background: var(--offwhite);
+    }
+    footer a { color: var(--text); text-decoration: underline; text-underline-offset: 2px; }
+
+    @media (max-width: 768px) {
+      :root { --page-padding: 1.25rem; }
+      .hero-blob { display: none; }
+      .hero .section-inner { flex-direction: column; text-align: center; }
+      .hero-image-wrap { flex: 0 0 auto; max-width: 280px; margin: 0 auto; width: 100%; }
+      .hero-text { min-width: 0; }
+      .hero .subtitle { margin-left: auto; margin-right: auto; }
+      .cta-block { grid-template-columns: 1fr; text-align: center; padding: 1.5rem; }
+      .cta-block .cta-icon-wrap { margin-left: auto; margin-right: auto; }
+      .cta-block .btn-cta { margin: 0 auto; }
+      .cards { grid-template-columns: 1fr; grid-template-rows: none; }
+      .cards .card { grid-column: auto; grid-row: auto; }
+      .faq-card { max-width: 100%; }
+    }
+    @media (max-width: 640px) {
+      :root { --page-padding: 1rem; }
+      .header-inner { flex-direction: column; align-items: stretch; }
+      .header .logo { font-size: 1.1rem; text-align: center; }
+      .nav-tabs { justify-content: center; flex-wrap: wrap; }
+      .hero-image-wrap { max-width: 240px; }
+      .cta-block { padding: 1.25rem; }
+      .discount-card .discount-price-side,
+      .discount-card .discount-copy-side { padding: 1.5rem 1rem; }
+      .discount-card .price-now { font-size: clamp(2.25rem, 10vw, 3rem); }
+      .pricing-card { padding: 1.5rem 1rem; }
+      .before-after-placeholder { gap: 1rem; }
+      .content-band .band-title,
+      .guarantee-band .band-title { font-size: clamp(1.5rem, 5vw, 1.85rem); }
+      .bonus-item { padding: 1rem 1.25rem; }
+      .btn-cta { min-height: 44px; white-space: normal; text-align: center; }
+      .greeting { word-wrap: break-word; overflow-wrap: break-word; }
+      .band-title { word-wrap: break-word; overflow-wrap: break-word; }
+    }
+  </style>
+</head>
+<body>
+  <!-- SVG clip-path definitions for shaped images – generous shapes so nothing is cut off -->
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute;pointer-events:none;">
+    <defs>
+      <!-- Soft blob: rounded rect, minimal inset so image isn’t cut off -->
+      <clipPath id="clip-blob" clipPathUnits="objectBoundingBox">
+        <path d="M0.03 0.08 Q0.5 0 0.97 0.08 Q1 0.5 0.97 0.92 Q0.5 1 0.03 0.92 Q0 0.5 0.03 0.08 Z"/>
+      </clipPath>
+      <!-- Rounded frame: thin inset so most of image shows -->
+      <clipPath id="clip-frame" clipPathUnits="objectBoundingBox">
+        <path d="M0.03 0 L0.97 0 L1 0.03 L1 0.97 L0.97 1 L0.03 1 L0 0.97 L0 0.03 Z"/>
+      </clipPath>
+      <clipPath id="clip-circle" clipPathUnits="objectBoundingBox">
+        <circle cx="0.5" cy="0.5" r="0.48"/>
+      </clipPath>
+      <!-- Strip: gentle rounded rect -->
+      <clipPath id="clip-strip" clipPathUnits="objectBoundingBox">
+        <path d="M0.04 0.06 Q0.25 0 0.5 0.04 T0.96 0.06 T0.98 0.5 T0.96 0.94 T0.5 0.98 T0.04 0.94 T0.02 0.5 T0.04 0.06 Z"/>
+      </clipPath>
+      <!-- Tilt: smaller crop so more of image visible -->
+      <clipPath id="clip-tilt" clipPathUnits="objectBoundingBox">
+        <path d="M0.08 0.12 L0.92 0.08 L0.92 0.88 L0.08 0.92 Z"/>
+      </clipPath>
+    </defs>
+  </svg>
+  <header class="header">
+    <div class="header-inner">
+      <a href="#" class="logo" data-tab="book"><span class="logo-accent">Etsy</span> <span class="logo-dark">in the Age of AI</span></a>
+      <nav>
+        <ul class="nav-tabs">
+          <li><a href="#" class="active" data-tab="book">Etsy in age Of AI – Book</a></li>
+          <li><a href="#" data-tab="tryon">Virtual Model Try on</a></li>
+          <li><a href="#" data-tab="resources">Free resources</a></li>
+        </ul>
+      </nav>
+      <a href="#cta-block" class="btn-cta">Get first 2 chapters for Free</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Tab: Etsy in age Of AI (Book) – default -->
+    <section id="panel-book" class="tab-panel active">
+      <!-- HERO -->
+      <div class="hero-band">
+        <div class="hero-blob" aria-hidden="true"></div>
+        <div class="hero">
+          <div class="section-inner">
+            <div class="hero-image-wrap">
+              <div class="blob-frame">
+                <figure class="hero-figure" aria-hidden="true">
+                  <img src="hero.jpg" alt="Etsy in the Age of AI — AI Virtual Models for Etsy sellers">
+                </figure>
+              </div>
+            </div>
+            <div class="hero-text">
+              <h1 class="greeting">Sell More on Etsy Using <span class="wavy">AI Virtual Models</span></h1>
+              <p class="subtitle">Create scroll-stopping product photos with AI model technology — without hiring models, photographers, or spending hours editing.</p>
+              <p class="subtitle">Turn basic product images into premium lifestyle visuals that get more clicks, more favorites, and more sales.</p>
+              <ul class="bullet-list bullet-green" style="margin-bottom:1.25rem;">
+                <li>Instant Download</li>
+                <li>Beginner Friendly</li>
+                <li>Works for Clothing, Accessories, Jewelry & More</li>
+              </ul>
+              <a href="#cta-block" class="btn-cta" id="cta">Download the Ebook Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LAUNCH DISCOUNT – coupon card -->
+      <div class="discount-band">
+        <div class="section-inner">
+          <div class="discount-card">
+            <div class="discount-price-side">
+              <span class="price-was">$49.99</span>
+              <span class="price-now"><span class="currency">$</span>4.99</span>
+              <span class="discount-save">Launch price</span>
+            </div>
+            <div class="discount-copy-side">
+              <span class="discount-label">First 100 readers only</span>
+              <p class="discount-note">Get the full ebook for just $4.99 — reserved for the first 100.</p>
+              <div class="discount-cta">
+                <a href="#cta-block" class="btn-cta">Get it for $4.99</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROBLEM -->
+      <div class="content-band">
+        <div class="section-inner">
+          <div class="section-with-image img-pos-1">
+            <div class="section-text">
+              <h2 class="band-title">You're not losing sales because your product isn't good…</h2>
+              <p class="band-lead">You're losing sales because your photos aren't stopping the scroll.</p>
+              <p class="band-body">On Etsy, shoppers decide in seconds. If your listing photos look:</p>
+              <ul class="problem-list">
+                <li>too plain</li>
+                <li>unprofessional</li>
+                <li>inconsistent</li>
+                <li>poorly lit</li>
+                <li>or not lifestyle-focused</li>
+              </ul>
+              <p class="band-body">…you're getting skipped, even if your product is amazing.</p>
+              <p class="band-body">Hiring models and photographers is expensive. DIY shoots take forever. And most Etsy sellers don't have time to create "Pinterest-worthy" content every week.</p>
+            </div>
+            <div class="section-image">
+              <div class="img-drawing-wrap">
+                <div class="img-shape-wrap img-shape-blob">
+                  <img src="Scroll_stopper_vs_skipped.jpg" alt="You're not losing sales because your product isn't good — it's your photos">
+                </div>
+                <span class="drawing-accent drawing-accent-1" aria-hidden="true">
+                  <svg viewBox="0 0 48 24" fill="none" stroke="#F0468C" stroke-width="1.5" stroke-linecap="round"><path d="M2 12c0 0 8-10 22-10s22 10 22 10"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOLUTION -->
+      <div class="content-band alt">
+        <div class="section-inner">
+          <div class="section-with-image img-pos-2">
+            <div class="section-text">
+              <h2 class="band-title">That's where AI Virtual Models come in.</h2>
+              <p class="band-lead">AI virtual model technology allows you to create high-quality, realistic lifestyle images that make your products look like a premium brand — without needing:</p>
+              <ul class="bullet-list">
+                <li>A real model</li>
+                <li>A studio</li>
+                <li>A camera setup</li>
+                <li>Expensive editing software</li>
+                <li>Endless reshoots</li>
+              </ul>
+              <p class="band-body">This ebook teaches you exactly how to use this technology the right way — so your Etsy listings look professional, modern, and trustworthy.</p>
+            </div>
+            <div class="section-image">
+              <div class="img-drawing-wrap">
+                <div class="img-shape-wrap img-shape-frame">
+                  <img src="Decision_in_seconds.jpg" alt="AI Virtual Models transform your product visuals">
+                </div>
+                <span class="drawing-accent drawing-accent-2" aria-hidden="true">
+                  <svg viewBox="0 0 36 36" fill="none" stroke="#82C1E7" stroke-width="1.2" stroke-linecap="round"><circle cx="18" cy="18" r="14" stroke-dasharray="4 3"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WHAT YOU'LL LEARN -->
+      <div class="content-band">
+        <div class="section-inner">
+          <div class="section-with-image img-pos-3">
+            <div class="section-text">
+              <h2 class="band-title">What you'll learn</h2>
+              <p class="band-lead">Inside this ebook, you'll learn:</p>
+              <ul class="bullet-list bullet-check">
+                <li>How AI virtual models work (without complicated jargon)</li>
+                <li>Which tools Etsy sellers should use (free + paid options)</li>
+                <li>How to turn a basic product photo into a realistic model image</li>
+                <li>How to create lifestyle images that look like a real brand photoshoot</li>
+                <li>The best AI prompts for fashion, jewelry, accessories & handmade products</li>
+                <li>How to make AI images match your product colors and style</li>
+                <li>How to avoid "fake-looking" results that hurt trust</li>
+                <li>How to use AI model images to increase conversion rates</li>
+                <li>How to optimize Etsy listing photos for click-through</li>
+                <li>How to combine AI images with Etsy SEO for maximum traffic</li>
+                <li>The legal/ethical rules Etsy sellers should follow</li>
+                <li>How to create a consistent shop look that builds brand trust</li>
+              </ul>
+            </div>
+            <div class="section-image">
+              <div class="img-drawing-wrap">
+                <div class="img-shape-wrap img-shape-tilt">
+                  <img src="Before_After_photo_strip.jpg" alt="What you'll learn inside the guide">
+                </div>
+                <span class="drawing-accent drawing-accent-3" aria-hidden="true">
+                  <svg viewBox="0 0 48 12" fill="none" stroke="#d4a853" stroke-width="1.5" stroke-linecap="round"><path d="M0 6 Q12 2 24 6 T48 6"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WHO THIS BOOK IS FOR -->
+      <div class="content-band alt">
+        <div class="section-inner">
+          <div class="section-with-image img-pos-4">
+            <div class="section-text">
+              <h2 class="band-title">Who this book is for</h2>
+              <p class="band-lead">This ebook is perfect for:</p>
+              <ul class="bullet-list bullet-green">
+                <li>Etsy sellers struggling with product photos</li>
+                <li>Handmade shop owners who want a more premium look</li>
+                <li>Clothing and apparel sellers who need models but can't hire them</li>
+                <li>Sellers who want more sales without spending hundreds on photography</li>
+                <li>Anyone who wants to stand out in competitive Etsy niches</li>
+                <li>Beginners who want a simple guide they can follow quickly</li>
+              </ul>
+            </div>
+            <div class="section-image">
+              <div class="img-drawing-wrap">
+                <div class="img-shape-wrap img-shape-blob">
+                  <img src="Etsy_seller_pain_triangle.jpg" alt="Who this book is for — Etsy sellers">
+                </div>
+                <span class="drawing-accent drawing-accent-1" aria-hidden="true">
+                  <svg viewBox="0 0 48 24" fill="none" stroke="#82C1E7" stroke-width="1.5" stroke-linecap="round"><path d="M2 12c0 0 8-10 22-10s22 10 22 10"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WHAT THIS WILL DO -->
+      <div class="content-band">
+        <div class="section-inner">
+          <div class="section-with-image img-pos-5">
+            <div class="section-text">
+              <h2 class="band-title">What this will do for your Etsy shop</h2>
+              <p class="band-lead">After reading this ebook, you'll be able to:</p>
+              <ul class="bullet-list bullet-green">
+                <li>Create professional model-style listing images in minutes</li>
+                <li>Increase clicks from Etsy search results</li>
+                <li>Improve trust and brand quality</li>
+                <li>Make your shop look more expensive (even if prices stay affordable)</li>
+                <li>Build a consistent visual style that customers recognize</li>
+                <li>Save time and money on photography</li>
+                <li>Increase conversion rates with better visuals</li>
+              </ul>
+            </div>
+            <div class="section-image">
+              <div class="img-drawing-wrap">
+                <div class="img-shape-wrap img-shape-strip">
+                  <img src="Great_product_bad_photo_frame.jpg" alt="What this will do for your Etsy shop — scroll-stopping results">
+                </div>
+                <span class="drawing-accent drawing-accent-2" aria-hidden="true">
+                  <svg viewBox="0 0 36 36" fill="none" stroke="#F0468C" stroke-width="1.2" stroke-linecap="round"><circle cx="18" cy="18" r="14" stroke-dasharray="4 3"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BEFORE & AFTER -->
+      <div class="content-band alt before-after-band">
+        <div class="section-inner">
+          <h2 class="band-title">Before & after</h2>
+          <p class="band-lead">Imagine this: Your listing goes from a plain product photo on a table → to a clean lifestyle image on a realistic model, with lighting that looks like a brand photoshoot. This is what makes shoppers stop scrolling.</p>
+          <div class="before-after-placeholder">
+            <a href="#cta-block" class="before-after-item-link">
+              <div class="placeholder-box"><img src="before_after_dress.jpg" alt="Before and after — dress"></div>
+            </a>
+            <a href="#cta-block" class="before-after-item-link">
+              <div class="placeholder-box"><img src="before_after_necklace.jpg" alt="Before and after — necklace"></div>
+            </a>
+            <a href="#cta-block" class="before-after-item-link">
+              <div class="placeholder-box"><img src="before_after_ring.jpg" alt="Before and after — photo strip"></div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- BONUSES -->
+      <div class="content-band">
+        <div class="section-inner">
+          <h2 class="band-title">When you buy today, you also get</h2>
+          <a href="#cta-block" class="bonus-item-link">
+            <div class="bonus-item">
+              <strong>Bonus #1: AI Prompt Pack for Etsy Sellers</strong><br>
+              Copy-and-paste prompts that generate better results instantly.
+            </div>
+          </a>
+          <a href="#cta-block" class="bonus-item-link">
+            <div class="bonus-item">
+              <strong>Bonus #2: Etsy Listing Photo Checklist</strong><br>
+              The exact image structure that top-selling Etsy shops use.
+            </div>
+          </a>
+          <a href="#cta-block" class="bonus-item-link">
+            <div class="bonus-item">
+              <strong>Bonus #3: Quick Start Guide</strong><br>
+              Start creating AI model photos in under 30 minutes.
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- FAQ (ebook) -->
+      <div class="faq-band">
+        <div class="section-inner">
+          <section class="faq" aria-label="Frequently Asked Questions">
+            <h2 class="section-title">Frequently Asked <span class="wavy-faq">Questions</span></h2>
+            <div class="faq-cards">
+              <div class="faq-card faq-card-accent">
+                <p class="faq-q">Do I need AI experience?</p>
+                <p class="faq-a">No. This guide is beginner-friendly and walks you through everything step-by-step.</p>
+              </div>
+              <div class="faq-card">
+                <p class="faq-q">What kind of Etsy products does this work for?</p>
+                <p class="faq-a">Perfect for clothing, accessories, jewelry, beauty products, and handmade items.</p>
+              </div>
+              <div class="faq-card">
+                <p class="faq-q">Will Etsy allow AI model images?</p>
+                <p class="faq-a">Yes, but you need to do it correctly. The ebook explains best practices and what to avoid.</p>
+              </div>
+              <div class="faq-card">
+                <p class="faq-q">What format is the ebook?</p>
+                <p class="faq-a">PDF (downloadable instantly).</p>
+              </div>
+              <div class="faq-card">
+                <p class="faq-q">Can I read it on my phone?</p>
+                <p class="faq-a">Yes — you can read it on any device.</p>
+              </div>
+              <div class="faq-card">
+                <p class="faq-q">Do I get access immediately?</p>
+                <p class="faq-a">Yes, as soon as you purchase.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- GUARANTEE -->
+      <div class="guarantee-band">
+        <div class="section-inner">
+          <h2 class="band-title">7-Day Money-Back Guarantee</h2>
+          <p class="band-lead">If you don't find this ebook useful, email us within 7 days and you'll get a full refund. No stress. No risk.</p>
+        </div>
+      </div>
+
+      <!-- ABOUT THE AUTHOR (commented out)
+      <div class="content-band author-band">
+        <div class="section-inner">
+          <div class="author-avatar" aria-hidden="true">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=240&h=240&fit=crop" alt="">
+          </div>
+          <div class="author-content">
+            <h2 class="band-title">Hi, I'm [Your Name]</h2>
+            <p class="band-body">I created this guide because I saw Etsy sellers struggling with one big problem: great products… but weak visuals.</p>
+            <p class="band-body">AI virtual model technology is changing ecommerce fast, and Etsy sellers who learn it early will have a huge advantage. This ebook is designed to help you use it the right way — so you can grow your shop faster, look more professional, and sell with confidence.</p>
+          </div>
+        </div>
+      </div>
+      -->
+
+      <!-- Common objections to AI fashion models -->
+      <div class="faq-band alt">
+        <div class="section-inner">
+          <section class="faq" aria-label="Common objections to AI fashion models">
+            <h2 class="section-title">Common objections to AI fashion models</h2>
+            <p class="faq-intro">Why transparency and ethics matter for buyers and sellers—and how the ebook addresses these concerns.</p>
+            <div class="faq-cards">
+              <div class="faq-card faq-card-accent">
+                <div class="faq-card-icon icon-dark" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/><path d="M14 10V6"/></svg>
+                </div>
+                <p class="faq-q">Doesn't AI just help small sellers look more professional?</p>
+                <p class="faq-a">While proponents argue it lowers the cost of professional imagery, many buyers see it as a "shortcut." If a seller takes shortcuts in advertising, consumers assume they are taking shortcuts in material quality and manufacturing. Within communities focused on handmade goods, the use of AI is often viewed as a signal of a "low-effort" shop or a dropshipping operation rather than a genuine artisan business.</p>
+              </div>
+              <div class="faq-card">
+                <div class="faq-card-icon icon-blue" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                </div>
+                <p class="faq-q">Why does it matter if the model is fake if the product is real?</p>
+                <p class="faq-a">The model's job is to show how a garment functions in reality—its drape, weight, and interaction with human movement. AI frequently fails at this, producing "mushy" textures or clothes that appear to "float" without reacting to gravity. When the received product's stitching or fabric doesn't match the "perfected" digital render, it leads to "AI disappointment" and claims of misrepresentation.</p>
+              </div>
+              <div class="faq-card">
+                <div class="faq-card-icon icon-dark" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01"/><path d="M15 9h.01"/></svg>
+                </div>
+                <p class="faq-q">Isn't the "uncanny valley" just a minor aesthetic issue?</p>
+                <p class="faq-a">It is a functional market failure. When models look "obviously fake," "weird," or have "trademark stiffness," it triggers immediate distrust. For many buyers, seeing an AI model is an immediate "red flag" for a scam; they would prefer to see clothes on a simple mannequin or a flat lay rather than a synthetic person.</p>
+              </div>
+              <div class="faq-card">
+                <div class="faq-card-icon icon-yellow" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <p class="faq-q">Why is AI modeling linked to fraud and scams?</p>
+                <p class="faq-a">AI allows scammers to quickly populate hijacked or new storefronts with hundreds of professional-looking listings for products that do not exist. This is used for "bait-and-switch" schemes where customers receive cheap, mass-produced knock-offs—or nothing at all—after being lured by an "impossible" or "hallucinated" digital image.</p>
+              </div>
+              <div class="faq-card">
+                <div class="faq-card-icon icon-purple" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3-3-7-7-3 3z"/><path d="M18 22l-3-3"/><path d="M15 15l3 3"/></svg>
+                </div>
+                <p class="faq-q">What are the ethical concerns regarding creative labor?</p>
+                <p class="faq-a">The primary objection is that AI is trained on the uncompensated work of real photographers, models, and artists. Furthermore, it devalues the "human spark" and the hours of skill required for traditional photography, replacing them with a "3-minute prompt" that many believe should not be sold as "handmade".</p>
+              </div>
+              <div class="faq-card">
+                <div class="faq-card-icon icon-blue" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <p class="faq-q">Can't AI improve model diversity?</p>
+                <p class="faq-a">Currently, it often reinforces the opposite. Buyers note that AI tends to produce "generic," "tall," and "thin" models, resulting in a homogenized and "boring" visual landscape. There is a growing demand for "real" human diversity rather than fictional, "perfected" representations.</p>
+              </div>
+              <div class="faq-card">
+                <div class="faq-card-icon icon-dark" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg>
+                </div>
+                <p class="faq-q">Is a disclaimer in the shop bio enough?</p>
+                <p class="faq-a">Community consensus is that hiding AI disclosure in a bio or about page is deceptive. Buyers argue that because most people don't read every shop profile, disclosure must be visible directly in the product listing. The current "transparency deficit" forces consumers to spend extra time researching a seller's social media or process videos just to confirm the shop is legitimate.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab: Virtual Model Try on -->
+    <section id="panel-tryon" class="tab-panel">
+      <div class="tryon-hero-band">
+        <div class="tryon-hero">
+          <p class="greeting">Try it yourself</p>
+          <h2 class="font-serif">Virtual Model Try on</h2>
+          <p>See how your products look on realistic, diverse virtual models—with full control over style and transparency.</p>
+        </div>
+      </div>
+
+      <div class="tryon-cta">
+        <a href="#" class="btn-cta btn-light-blue">Try Virtual Model Try-On</a>
+      </div>
+    </section>
+
+    <!-- Tab: Free resources -->
+    <section id="panel-resources" class="tab-panel">
+      <div class="resources-band">
+        <div class="section-inner">
+          <h2 class="section-title">Free resources</h2>
+          <p class="resources-intro">Guides, checklists, and reading to help you navigate Etsy and creative commerce in the age of AI.</p>
+          <div class="resources-list">
+        <a href="#" class="resource-link">Guide: When to use AI imagery (and when not to) <svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="#" class="resource-link">Checklist: Transparent product listings <svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="#" class="resource-link">Reading: Buyer expectations & AI disclosure <svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="#" class="resource-link">Templates: Shop policies for AI-generated content <svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+          <div class="tryon-cta" style="margin-top: 2rem;">
+            <a href="#cta-block" class="btn-cta">Get first 2 chapters for Free</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <div class="cta-band" style="background:white">
+      <div class="section-inner">
+        <div class="cta-block" id="cta-block">
+          <div class="cta-block-left">
+            <h2 class="cta-title">Ready to upgrade your Etsy shop visuals and sell more?</h2>
+            <p class="cta-proof">Get the full guide + bonus prompt pack instantly.</p>
+          </div>
+          <div class="cta-block-right">
+            <a href="#cta-block" class="btn-cta">Download the Ebook Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© Etsy in the Age of AI. For questions, <a href="#">contact us</a>.</p>
+  </footer>
+
+  <script>
+    (function () {
+      var tabs = document.querySelectorAll('[data-tab]');
+      var panels = document.querySelectorAll('.tab-panel');
+      var navLinks = document.querySelectorAll('.nav-tabs a[data-tab]');
+
+      function showPanel(id) {
+        panels.forEach(function (p) {
+          p.classList.toggle('active', p.id === 'panel-' + id);
+        });
+        navLinks.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('data-tab') === id);
+        });
+      }
+
+      tabs.forEach(function (t) {
+        t.addEventListener('click', function (e) {
+          e.preventDefault();
+          var id = t.getAttribute('data-tab');
+          if (id) showPanel(id);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

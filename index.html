@@ -1950,23 +1950,38 @@
       var tabs = document.querySelectorAll('[data-tab]');
       var panels = document.querySelectorAll('.tab-panel');
       var navLinks = document.querySelectorAll('.nav-tabs a[data-tab]');
+      var VALID_TABS = ['book', 'tryon', 'resources'];
 
-      function showPanel(id) {
+      function showPanel(id, updateHash) {
+        if (!id || VALID_TABS.indexOf(id) === -1) id = 'book';
         panels.forEach(function (p) {
           p.classList.toggle('active', p.id === 'panel-' + id);
         });
         navLinks.forEach(function (a) {
           a.classList.toggle('active', a.getAttribute('data-tab') === id);
         });
+        if (updateHash) window.location.hash = id;
+      }
+
+      function hashToTab() {
+        var hash = (window.location.hash || '').replace(/^#/, '').toLowerCase();
+        return VALID_TABS.indexOf(hash) !== -1 ? hash : 'book';
+      }
+
+      function applyHash() {
+        showPanel(hashToTab(), false);
       }
 
       tabs.forEach(function (t) {
         t.addEventListener('click', function (e) {
           e.preventDefault();
           var id = t.getAttribute('data-tab');
-          if (id) showPanel(id);
+          if (id) showPanel(id, true);
         });
       });
+
+      window.addEventListener('hashchange', applyHash);
+      applyHash();
     })();
 
     // Before/after widget (Virtual Model Try-on)

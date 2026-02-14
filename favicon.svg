@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF5C2;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FCD34D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <circle cx="256" cy="110" r="70" fill="#FEF08A" opacity="0.6" />
+
+  <rect x="66" y="140" width="380" height="340" rx="40" ry="40" fill="#F37F38" />
+  
+  <circle cx="256" cy="140" r="55" fill="url(#goldGradient)" stroke="#D97706" stroke-width="6"/>
+  <circle cx="256" cy="190" r="18" fill="#FCD34D" stroke="#D97706" stroke-width="4"/>
+
+  <text x="256" y="420" 
+        font-family="'Times New Roman', Times, serif" 
+        font-weight="bold" 
+        font-size="280" 
+        fill="#FFFFFF" 
+        text-anchor="middle">E</text>
+</svg>

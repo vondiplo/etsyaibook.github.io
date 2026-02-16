@@ -1,8 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect x="0" y="0" width="64" height="64" rx="14" fill="#F0468C"/>
+  <rect width="64" height="64" rx="14" fill="#F0468C"/>
 
-  <g transform="scale(1.2,1.2),translate(-9 -3)">
-    <path fill="#fff" d="M22 20h24v6H28v6h16v6H28v6h18v6H22z"/>
-    <path fill="#fff" d="M50 10l1.6 5.4L57 17l-5.4 1.6L50 24l-1.6-5.4L43 17l5.4-1.6z"/>
-  </g>
+  <!-- BIG E -->
+  <path 
+    d="M12 14h40v10H24v6h26v10H24v6h28v10H12z"
+    fill="#fff"
+    transform="translate(-5, 2)"
+    />
+
+  <!-- BIG simple sparkle (4-point) -->
+  <path d="M50 6
+           L54 18
+           L66 22
+           L54 26
+           L50 38
+           L46 26
+           L34 22
+           L46 18 Z"
+        fill="gold"
+        transform="translate(0, -8)"
+        stroke="#E060A5"
+        stroke-width="1"
+        stroke-linejoin="round"/>
 </svg>

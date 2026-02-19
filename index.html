@@ -7,7 +7,7 @@
   <title>The Etsy Seller's Guide to AI Virtual Models – Ebook</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Patrick+Hand&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Patrick+Hand&family=Caveat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     :root {
@@ -36,7 +36,7 @@
       --shadow-soft: 0 4px 20px rgba(160, 40, 160, 0.08);
       --shadow-card: 0 2px 12px rgba(160, 40, 160, 0.05);
       --serif: 'DM Serif Display', Georgia, serif;
-      --sans: 'Patrick Hand', 'Comic Neue', cursive;
+      --sans: 'Roboto', system-ui, sans-serif;
       --hand: 'Caveat', 'Patrick Hand', cursive;
       --gradient-cta: linear-gradient(135deg, var(--brand-fuchsia) 0%, var(--brand-magenta) 50%, var(--brand-purple) 100%);
       --gradient-cta-subtle: linear-gradient(135deg, var(--brand-pink-light) 0%, var(--brand-fuchsia) 100%);
@@ -391,21 +391,20 @@
       opacity: 0.9;
     }
     .bullet-list.bullet-check li::before {
-      background: #22c55e;
-      border-radius: 2px;
-      width: 0.6rem;
-      height: 0.6rem;
-      top: 0.5em;
-      left: 0.15rem;
+      content: '✓';
+      background: none;
+      width: auto;
+      height: auto;
+      border-radius: 0;
+      color: #22c55e;
+      font-size: 1rem;
+      font-weight: 700;
+      top: 0.05em;
+      left: 0;
     }
     .bullet-list.bullet-check li::after {
-      content: '✓';
-      position: absolute;
-      left: 0.25rem;
-      top: 0.15rem;
-      font-size: 0.5rem;
-      font-weight: 700;
-      color: var(--white);
+      content: none;
+      display: none;
     }
     .bullet-list.bullet-green li::before { background: #22c55e; }
     .problem-list {
@@ -415,12 +414,22 @@
     }
     .problem-list li {
       position: relative;
-      padding-left: 1.5rem;
+      padding-left: 1.75rem;
       margin-bottom: 0.5rem;
       color: var(--text-muted);
       font-size: 1.15rem;
     }
-    .problem-list li::before { content: '•'; position: absolute; left: 0; color: var(--brand-fuchsia); font-weight: 700; }
+    .problem-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.4em;
+      width: 1rem;
+      height: 1rem;
+      background: var(--brand-fuchsia);
+      border-radius: 50%;
+      opacity: 0.9;
+    }
     .pricing-band {
       padding: var(--section-gap) 0;
       background: linear-gradient(180deg, var(--offwhite-2) 0%, var(--white) 100%);
@@ -964,7 +973,7 @@
     .faq-card.faq-card-accent .faq-a { color: var(--brand-navy); }
     .faq-card .faq-q {
       font-weight: 700;
-      font-size: 1.05rem;
+      font-size: clamp(1.35rem, 2.5vw, 1.65rem);
       color: var(--text);
       margin: 0 0 0.75rem;
       line-height: 1.35;
@@ -1443,7 +1452,7 @@
               <h1 class="greeting">Sell More on Etsy Using <span class="wavy">AI Virtual Models</span></h1>
               <p class="subtitle">Create scroll-stopping product photos with AI model technology — without hiring models, photographers, or spending hours editing.</p>
               <p class="subtitle">Turn basic product images into premium lifestyle visuals that get more clicks, more favorites, and more sales.</p>
-              <ul class="bullet-list bullet-green" style="margin-bottom:1.25rem;">
+              <ul class="bullet-list" style="margin-bottom:1.25rem;">
                 <li>Instant Download</li>
                 <li>Beginner Friendly</li>
                 <li>Works for Clothing, Accessories, Jewelry & More</li>
